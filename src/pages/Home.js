@@ -39,6 +39,7 @@ class Home extends React.Component {
                 name="categoria"
                 id={ categorie.id }
               />
+              <span>{categorie.name}</span>
             </label>
           ))}
         </p>
