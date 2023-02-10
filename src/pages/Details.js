@@ -58,31 +58,4 @@ Details.propTypes = {
   }).isRequired,
 };
 
-//   <div data-testid="product">
-//   <h3>{ title }</h3>
-//   <img src={ thumbnail } alt="imagem do produto" />
-//   <p>{ price }</p>
-//   <Link to={ `/details/${id}` }>Detalhes</Link>
-// </div>;
-
-// categorieProducts.map((product) => (
-//   <ProductCard
-//     key={ product.id }
-//     product={ product }
-//   />
-
-// getCategorieById = async ({ target }) => {
-//   const { value } = target;
-//   const response = await getProductById(value);
-
-//   this.setState({
-//     categorieProducts: response,
-//   });
-// };
-
-// const endPoint = `https://api.mercadolibre.com/sites/MLB/search?category=${categoryId}`;
-//   const response = await fetch(endPoint);
-//   const data = await response.json();
-
-//   return data.results;
 export default Details;
