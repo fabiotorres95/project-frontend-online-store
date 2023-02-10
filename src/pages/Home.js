@@ -1,11 +1,25 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import ProductCard from '../components/ProductCard';
+import { getCategories } from '../services/api';
 
 class Home extends React.Component {
   state = {
     search: '',
     productsList: [],
     emptyArray: false,
+    categories: [],
+  };
+
+  componentDidMount() {
+    this.requirementCategories();
+  }
+
+  requirementCategories = async () => {
+    const data = await getCategories();
+    this.setState({
+      categories: data,
+    });
   };
 
   handleChange = ({ target }) => {
@@ -35,9 +49,16 @@ class Home extends React.Component {
   };
 
   render() {
-    const { search, productsList, emptyArray } = this.state;
+    const { search, productsList, emptyArray, categories } = this.state;
+    const { history } = this.props;
     return (
       <>
+        <button
+          data-testid="shopping-cart-button"
+          onClick={ () => history.push('/cart') }
+        >
+          Carrinho
+        </button>
         <input
           data-testid="query-input"
           type="text"
@@ -57,6 +78,22 @@ class Home extends React.Component {
         >
           Digite algum termo de pesquisa ou escolha uma categoria.
         </p>
+        <p>
+          {categories.map((categorie) => (
+            <label
+              key={ categorie.id }
+              htmlFor={ categorie.id }
+              data-testid="category"
+            >
+              <input
+                type="radio"
+                name="categoria"
+                id={ categorie.id }
+              />
+              <span>{categorie.name}</span>
+            </label>
+          ))}
+        </p>
         <div>
           { productsList.length > 0
             ? productsList.map((product) => (
@@ -70,5 +107,11 @@ class Home extends React.Component {
     );
   }
 }
+
+Home.propTypes = {
+  history: PropTypes.shape({
+    push: PropTypes.func.isRequired,
+  }).isRequired,
+};
 
 export default Home;
