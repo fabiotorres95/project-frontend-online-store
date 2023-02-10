@@ -21,6 +21,7 @@ class Home extends React.Component {
     const endPoint = `https://api.mercadolibre.com/sites/MLB/search?q=${search}`;
     const response = await fetch(endPoint);
     const data = await response.json();
+
     if (data.results.length === 0) {
       this.setState({
         emptyArray: true,
