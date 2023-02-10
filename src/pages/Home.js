@@ -36,7 +36,6 @@ class Home extends React.Component {
         >
           Carrinho
         </button>
-      </>
         <p>
           {categories.map((categorie) => (
             <label
