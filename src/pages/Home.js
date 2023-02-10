@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { getCategories } from '../services/api';
 
 class Home extends React.Component {
@@ -18,6 +19,7 @@ class Home extends React.Component {
   };
 
   render() {
+    const { history } = this.props;
     const { categories } = this.state;
     return (
       <div>
@@ -27,6 +29,13 @@ class Home extends React.Component {
         >
           Digite algum termo de pesquisa ou escolha uma categoria.
         </p>
+
+        <button
+          data-testid="shopping-cart-button"
+          onClick={ () => history.push('/cart') }
+        >
+          Carrinho
+        </button>
         <p>
           {categories.map((categorie) => (
             <label
@@ -47,5 +56,11 @@ class Home extends React.Component {
     );
   }
 }
+
+Home.propTypes = {
+  history: PropTypes.shape({
+    push: PropTypes.func.isRequired,
+  }).isRequired,
+};
 
 export default Home;
