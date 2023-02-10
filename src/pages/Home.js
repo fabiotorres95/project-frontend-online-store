@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import ProductCard from '../components/ProductCard';
-import { getCategories } from '../services/api';
+import { getCategories, getProductById } from '../services/api';
 
 class Home extends React.Component {
   state = {
@@ -9,6 +9,7 @@ class Home extends React.Component {
     productsList: [],
     emptyArray: false,
     categories: [],
+    categorieProducts: [],
   };
 
   componentDidMount() {
@@ -48,8 +49,22 @@ class Home extends React.Component {
     });
   };
 
+  getCategorieById = async ({ target }) => {
+    const { value } = target;
+    const response = await getProductById(value);
+
+    this.setState({
+      categorieProducts: response,
+    });
+  };
+
   render() {
-    const { search, productsList, emptyArray, categories } = this.state;
+    const { search,
+      productsList,
+      emptyArray,
+      categories,
+      categorieProducts } = this.state;
+
     const { history } = this.props;
     return (
       <>
@@ -78,7 +93,7 @@ class Home extends React.Component {
         >
           Digite algum termo de pesquisa ou escolha uma categoria.
         </p>
-        <p>
+        <div>
           {categories.map((categorie) => (
             <label
               key={ categorie.id }
@@ -89,11 +104,19 @@ class Home extends React.Component {
                 type="radio"
                 name="categoria"
                 id={ categorie.id }
+                onChange={ this.getCategorieById }
+                value={ categorie.id }
               />
               <span>{categorie.name}</span>
             </label>
           ))}
-        </p>
+        </div>
+        { categorieProducts.map((product) => (
+          <ProductCard
+            key={ product.id }
+            product={ product }
+          />
+        ))}
         <div>
           { productsList.length > 0
             ? productsList.map((product) => (
