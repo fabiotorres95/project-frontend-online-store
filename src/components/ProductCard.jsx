@@ -2,6 +2,17 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
 class ProductCard extends Component {
+  handleLocalStorage = () => {
+    const { product } = this.props;
+    let productsList = [];
+    if (localStorage.products) {
+      productsList = JSON.parse(localStorage.getItem('products'));
+    }
+    const newProduct = product;
+    productsList.push(newProduct);
+    localStorage.products = JSON.stringify(productsList);
+  };
+
   render() {
     const { product: { title, thumbnail, price } } = this.props;
     return (
@@ -11,7 +22,7 @@ class ProductCard extends Component {
         <p>{ price }</p>
         <button
           data-testid="product-add-to-cart"
-          onClick={ () => {} }
+          onClick={ this.handleLocalStorage }
         >
           Adicionar ao carrrinho
         </button>
