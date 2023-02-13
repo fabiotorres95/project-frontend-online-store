@@ -9,6 +9,12 @@ class ProductCard extends Component {
         <h3>{ title }</h3>
         <img src={ thumbnail } alt="imagem do produto" />
         <p>{ price }</p>
+        <button
+          data-testid="product-add-to-cart"
+          onClick={ () => {} }
+        >
+          Adicionar ao carrrinho
+        </button>
       </div>
     );
   }
