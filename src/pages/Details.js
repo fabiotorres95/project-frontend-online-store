@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { addCart } from '../services/cartFunctions';
 
 class Details extends Component {
   state = {
@@ -21,6 +22,12 @@ class Details extends Component {
     });
   };
 
+  addProductToCart = () => {
+    const { details } = this.state;
+    console.log(details);
+    addCart(details);
+  };
+
   render() {
     const { details } = this.state;
     const { title, thumbnail, price } = details;
@@ -35,6 +42,13 @@ class Details extends Component {
           alt="imagem do produto"
         />
         <p data-testid="product-detail-price">{ price }</p>
+        <button
+          type="button"
+          data-testid="product-detail-add-to-cart"
+          onClick={ this.addProductToCart }
+        >
+          Adicionar ao Carrinho
+        </button>
         <button
           data-testid="shopping-cart-button"
           onClick={ () => history.push('/cart') }
