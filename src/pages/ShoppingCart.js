@@ -4,11 +4,12 @@ import ProductCart from '../components/ProductCart';
 class ShoppingCart extends Component {
   render() {
     const products = JSON.parse(localStorage.getItem('products'));
+    console.log(products);
     const elementEmptyCart = (
       <div
         data-testid="shopping-cart-empty-message"
       >
-        Carrinho vazio
+        Seu carrinho está vazio
 
       </div>
     );
@@ -16,7 +17,7 @@ class ShoppingCart extends Component {
     return (
 
       <div>
-        { products
+        { products.length > 0
           ? products.map((productItem) => (
             <ProductCart
               key={ productItem.id }
