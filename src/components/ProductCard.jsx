@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
 class ProductCard extends Component {
-  handleLocalStorage = () => {
+  handleClick = () => {
     const { product } = this.props;
     let productsList = [];
     if (localStorage.products) {
@@ -22,7 +22,7 @@ class ProductCard extends Component {
         <p>{ price }</p>
         <button
           data-testid="product-add-to-cart"
-          onClick={ this.handleLocalStorage }
+          onClick={ this.handleClick }
         >
           Adicionar ao carrrinho
         </button>

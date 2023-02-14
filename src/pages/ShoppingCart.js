@@ -1,31 +1,29 @@
 import React, { Component } from 'react';
-import ProductCard from '../components/ProductCard';
+import ProductCart from '../components/ProductCart';
 
 class ShoppingCart extends Component {
-  state = {
-    emptyCart: true,
-    products: [],
-  };
-
   render() {
-    const { emptyCart, products } = this.state;
+    const products = JSON.parse(localStorage.getItem('products'));
     const elementEmptyCart = (
       <div
         data-testid="shopping-cart-empty-message"
       >
-        Seu carrinho está vazio
+        Carrinho vazio
 
-      </div>);
+      </div>
+    );
+
     return (
+
       <div>
-        { emptyCart
-          ? elementEmptyCart
-          : products.map((productItem) => (
-            <ProductCard
+        { products
+          ? products.map((productItem) => (
+            <ProductCart
               key={ productItem.id }
               product={ productItem }
-
-            />))}
+            />
+          ))
+          : elementEmptyCart}
       </div>
     );
   }
