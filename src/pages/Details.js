@@ -3,12 +3,20 @@ import PropTypes from 'prop-types';
 import { addCart } from '../services/cartFunctions';
 
 class Details extends Component {
-  state = {
-    details: [],
-    email: '',
-    rating: '',
-    comments: '',
-  };
+  constructor() {
+    super();
+
+    this.validationFields = this.validationFields.bind(this);
+
+    this.state = {
+      reviews: [],
+      details: [],
+      email: '',
+      rating: '',
+      text: '',
+      isNotValid: false,
+    };
+  }
 
   componentDidMount() {
     this.getProduct();
@@ -19,29 +27,42 @@ class Details extends Component {
     const endPoint = `https://api.mercadolibre.com/items/${id}`;
     const response = await fetch(endPoint);
     const data = await response.json();
-
-    this.setState({
-      details: data,
-    });
+    const savedReviews = localStorage.getItem(data.id);
+    if (savedReviews) {
+      this.setState({
+        details: data,
+        reviews: savedReviews,
+      });
+    } else {
+      this.setState({
+        details: data,
+      });
+    }
   };
 
   addProductToCart = () => {
     const { details } = this.state;
-    console.log(details);
     addCart(details);
   };
 
   validationFields = () => {
-    const { email, rating, comments } = this.state;
-    const validation = email.length > 0 && rating.length > 0 && comments.length > 0;
-    this.state({
-      validation,
+    const { details, email, rating, text, isNotValid, reviews } = this.state;
+    const validation = email.length === 0 || rating.length === 0 || text.length === 0;
+    const reviewData = { email, text, rating };
+    this.setState({
+      email: '',
+      rating: '',
+      text: '',
+      isNotValid: validation,
     }, () => {
-      this.setState({
-        email: '',
-        rating: '',
-        comments: '',
-      });
+      if (!isNotValid) {
+        const allReviews = reviews;
+        allReviews.push(reviewData);
+        localStorage.setItem(
+          details.id,
+          JSON.stringify(allReviews),
+        );
+      }
     });
   };
 
@@ -53,7 +74,7 @@ class Details extends Component {
   };
 
   render() {
-    const { details, email, comments, rating } = this.state;
+    const { details, email, text, rating, isNotValid, reviews } = this.state;
     const { title, thumbnail, price } = details;
     const { history } = this.props;
 
@@ -83,7 +104,7 @@ class Details extends Component {
           <label>
             Email
             <input
-              type="text"
+              type="email"
               data-testid="product-detail-email"
               name="email"
               value={ email }
@@ -96,7 +117,7 @@ class Details extends Component {
             onChange={ this.handleChange }
             value={ rating }
           >
-            <option data-testid="1-rating">Selecione</option>
+            <option value="">Selecione</option>
             <option value="1" data-testid="1-rating">1</option>
             <option value="2" data-testid="2-rating">2</option>
             <option value="3" data-testid="3-rating">3</option>
@@ -110,8 +131,8 @@ class Details extends Component {
               type="text"
               data-testid="product-detail-evaluation"
               onChange={ this.handleChange }
-              name="comments"
-              value={ comments }
+              name="text"
+              value={ text }
             />
           </label>
 
@@ -122,8 +143,9 @@ class Details extends Component {
           >
             Enviar
           </button>
-
         </form>
+        { isNotValid ? <p data-testid="error-msg">Campos inválidos</p> : <p /> }
+        { reviews.length !== 0 ? <p>{reviews[0].email}</p> : <p />}
       </div>
     );
   }
