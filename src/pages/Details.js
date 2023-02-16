@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { addCart } from '../services/cartFunctions';
+import ReviewCard from '../components/ReviewCard';
 
 class Details extends Component {
   constructor() {
@@ -31,7 +32,7 @@ class Details extends Component {
     if (savedReviews) {
       this.setState({
         details: data,
-        reviews: savedReviews,
+        reviews: JSON.parse(savedReviews),
       });
     } else {
       this.setState({
@@ -46,8 +47,9 @@ class Details extends Component {
   };
 
   validationFields = () => {
-    const { details, email, rating, text, isNotValid, reviews } = this.state;
+    const { details, email, rating, text, reviews } = this.state;
     const validation = email.length === 0 || rating.length === 0 || text.length === 0;
+    console.log(validation);
     const reviewData = { email, text, rating };
     this.setState({
       email: '',
@@ -55,7 +57,7 @@ class Details extends Component {
       text: '',
       isNotValid: validation,
     }, () => {
-      if (!isNotValid) {
+      if (validation === false) {
         const allReviews = reviews;
         allReviews.push(reviewData);
         localStorage.setItem(
@@ -64,6 +66,7 @@ class Details extends Component {
         );
       }
     });
+    this.getProduct();
   };
 
   handleChange = ({ target }) => {
@@ -145,7 +148,16 @@ class Details extends Component {
           </button>
         </form>
         { isNotValid ? <p data-testid="error-msg">Campos inválidos</p> : <p /> }
-        { reviews.length !== 0 ? <p>{reviews[0].email}</p> : <p />}
+        { reviews.length !== 0
+          ? reviews.map((obj) => (
+            <ReviewCard
+              key={ obj.email }
+              email={ obj.email }
+              rating={ obj.rating }
+              text={ obj.text }
+            />
+          ))
+          : <p />}
       </div>
     );
   }
