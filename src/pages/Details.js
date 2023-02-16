@@ -70,6 +70,7 @@ class Details extends Component {
 
   handleChange = ({ target }) => {
     const { value, name } = target;
+    console.log(name, value);
     this.setState({
       [name]: value,
     });

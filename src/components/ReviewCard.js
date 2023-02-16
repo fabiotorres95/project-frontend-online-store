@@ -6,9 +6,9 @@ class ReviewCard extends Component {
     const { email, rating, text } = this.props;
     return (
       <div>
-        <p data-testid="review-card-email">{ `email: ${email}`}</p>
-        <p data-testid="review-card-rating">{ `rating: ${rating}`}</p>
-        <p data-testid="review-card-evaluation">{ `text: ${text}`}</p>
+        <p data-testid="review-card-email">{ email }</p>
+        <p data-testid="review-card-rating">{ rating }</p>
+        <p data-testid="review-card-evaluation">{ text }</p>
       </div>
     );
   }
