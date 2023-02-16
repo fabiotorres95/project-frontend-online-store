@@ -48,8 +48,7 @@ class Details extends Component {
 
   validationFields = () => {
     const { details, email, rating, text, reviews } = this.state;
-    const validation = email.length === 0 || rating.length === 0 || text.length === 0;
-    console.log(validation);
+    const validation = rating.length === 0;
     const reviewData = { email, text, rating };
     this.setState({
       email: '',
@@ -77,7 +76,7 @@ class Details extends Component {
   };
 
   render() {
-    const { details, email, text, rating, isNotValid, reviews } = this.state;
+    const { details, email, text, isNotValid, reviews } = this.state;
     const { title, thumbnail, price } = details;
     const { history } = this.props;
 
@@ -115,18 +114,55 @@ class Details extends Component {
             />
           </label>
 
-          <select
+          <label htmlFor="option1">1</label>
+          <input
+            type="radio"
+            data-testid="1-rating"
+            id="option1"
+            value="1"
             name="rating"
             onChange={ this.handleChange }
-            value={ rating }
-          >
-            <option value="">Selecione</option>
-            <option value="1" data-testid="1-rating">1</option>
-            <option value="2" data-testid="2-rating">2</option>
-            <option value="3" data-testid="3-rating">3</option>
-            <option value="4" data-testid="4-rating">4</option>
-            <option value="5" data-testid="5-rating">5</option>
-          </select>
+          />
+
+          <label htmlFor="option2">2</label>
+          <input
+            type="radio"
+            data-testid="2-rating"
+            id="option2"
+            value="2"
+            name="rating"
+            onChange={ this.handleChange }
+          />
+
+          <label htmlFor="option3">3</label>
+          <input
+            type="radio"
+            data-testid="3-rating"
+            id="option3"
+            value="3"
+            name="rating"
+            onChange={ this.handleChange }
+          />
+
+          <label htmlFor="option4">4</label>
+          <input
+            type="radio"
+            data-testid="4-rating"
+            id="option4"
+            value="4"
+            name="rating"
+            onChange={ this.handleChange }
+          />
+
+          <label htmlFor="option5">5</label>
+          <input
+            type="radio"
+            data-testid="5-rating"
+            id="option5"
+            value="5"
+            name="rating"
+            onChange={ this.handleChange }
+          />
 
           <label>
             Comentários
@@ -149,9 +185,9 @@ class Details extends Component {
         </form>
         { isNotValid ? <p data-testid="error-msg">Campos inválidos</p> : <p /> }
         { reviews.length !== 0
-          ? reviews.map((obj) => (
+          ? reviews.map((obj, index) => (
             <ReviewCard
-              key={ obj.email }
+              key={ index }
               email={ obj.email }
               rating={ obj.rating }
               text={ obj.text }
