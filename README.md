@@ -8,3 +8,8 @@ Não deixe de usar nossas dicas de escrita de README de projetos, e deixe sua cr
 - quais arquivos/pastas foram desenvolvidos por outra pessoa estudante;
 - quais arquivos/pastas foram desenvolvidos pela Trybe.
 -->
+Projeto Frontend Online Store - Trybe curso Front-End seção 5: "Metodologias Ágeis"
+
+Front-End - projeto 5 de 10
+
+coautores: Renan Marques Garcia, Gabriel da Silva, Lílian Vieira Moura.
